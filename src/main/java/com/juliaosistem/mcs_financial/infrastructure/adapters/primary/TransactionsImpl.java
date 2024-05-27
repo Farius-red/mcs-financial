@@ -56,8 +56,15 @@ public class TransactionsImpl {
                 request.setPrice(transactionByIdResponse.getData().getPrice());
                 return transactionServiceInter.anulateTransaction(request, cardResponse.getData());
             }
-            else
-              return    userResponses.buildResponse(ResponseType.TRANSACTION_FAIL.getCode(), TransactionResponse.builder().build());
+            else {
+                if(cardResponse.getMessage().equalsIgnoreCase(ResponseType.CARD_NO_FOUND.getMessage())){
+                    return userResponses.buildResponse(ResponseType.CARD_NO_FOUND.getCode(), TransactionResponse.builder().build());
+                }
+                if(cardResponse.getMessage().equalsIgnoreCase(ResponseType.TRANSACTION_FAIL.getMessage())) {
+                    return userResponses.buildResponse(ResponseType.TRANSACTION_FAIL.getCode(), TransactionResponse.builder().build());
+                }
+                return userResponses.buildResponse(ResponseType.FALLO.getCode(), TransactionResponse.builder().build());
+            }
       } else return transactionByIdResponse;
     }
 
@@ -65,11 +72,13 @@ public class TransactionsImpl {
         if(!verifiedDateOfPurchese(transactionByIdResponse.getData())) {
           return cardServiceInter.findByCardNumber(cardRequest);
         }
-        return PlantillaResponse.<CardResponse>builder().rta(false).build();
+        return PlantillaResponse.<CardResponse>builder().rta(false)
+                .message(ResponseType.TRANSACTION_FAIL.getMessage())
+                .build();
     }
 
     private boolean  verifiedDateOfPurchese(TransactionResponse transactionResponse){
         var dateOfPurchase = transactionResponse.getDateOfPurchase();
-       return dateOfPurchase.isAfter(transactionResponse.getDateOfPurchase().plusDays(1));
+       return dateOfPurchase.isAfter(transactionResponse.getDateOfPurchase().plusHours(24));
     }
 }

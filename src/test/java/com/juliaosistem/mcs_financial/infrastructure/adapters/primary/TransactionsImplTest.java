@@ -145,7 +145,9 @@ class TransactionsImplTest {
                                 .build())
                 .build());
 
-        when(cardServiceInter.findByCardNumber(any())).thenReturn(new PlantillaResponse<>());
+        when(cardServiceInter.findByCardNumber(any())).thenReturn(PlantillaResponse.<CardResponse>builder()
+                        .message(ResponseType.CARD_NO_FOUND.getMessage())
+                .build());
         when(userResponses.buildResponse(anyInt(),any())).thenReturn(PlantillaResponse.<TransactionResponse>builder()
                         .message(ResponseType.CARD_NO_FOUND.getMessage())
                 .build());

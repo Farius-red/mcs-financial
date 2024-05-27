@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
     @RequestMapping("/card")
@@ -45,9 +47,29 @@ import org.springframework.web.bind.annotation.*;
             @ApiResponse(responseCode = "200", description = "Tarjeta bloqueada exitosamente")
     })
     @DeleteMapping("/{cardId}")
-    public ResponseEntity<PlantillaResponse<CardResponse>> blockCard(@PathVariable("cardId") Integer cardId) {
+    public ResponseEntity<PlantillaResponse<CardResponse>> blockCard(@PathVariable("cardId") String cardId) {
         var response = cardService.blockCard(cardId);
         return new ResponseEntity<>(response, response.getHttpStatus());
     }
 
+
+    @Operation(summary = "Recargar saldo", responses = {
+            @ApiResponse(responseCode = "200", description = "Saldo recargado exitosamente")
+    })
+    @PostMapping("/balance")
+    public ResponseEntity<PlantillaResponse<CardResponse>> reloadBalance(@Valid  @RequestBody CardRequest cardRequest) {
+        var response = cardService.reloadBalance(cardRequest);
+        return new ResponseEntity<>(response, response.getHttpStatus());
+    }
+
+
+    @Operation(summary = "Consulta de saldo", responses = {
+            @ApiResponse(responseCode = "200", description = "Se obtuvieron datos correctamente"),
+            @ApiResponse(responseCode = "404", description = "No se encontraron datos")
+    })
+    @GetMapping("/balance/{cardId}")
+    public ResponseEntity<PlantillaResponse<CardResponse>> checkBalance(@PathVariable("cardId") Integer cardId) {
+        var response = cardService.checkBalance(cardId);
+        return new ResponseEntity<>(response, response.getHttpStatus());
+    }
 }

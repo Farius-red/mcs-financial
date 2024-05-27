@@ -9,5 +9,9 @@ import lombok.*;
 @Getter
 @Setter
 public class CardResponse {
+
+    private Integer id;
     private String cardNumber;
+    private Double balance ;
+    private Boolean blocked;
 }

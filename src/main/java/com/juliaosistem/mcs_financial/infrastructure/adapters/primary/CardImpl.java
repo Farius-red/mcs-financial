@@ -58,21 +58,37 @@ public class CardImpl {
         var response = cardServiceInter.findByCardNumber(cardRequest);
 
         if (response.getMessage().equalsIgnoreCase(ResponseType.GET.getMessage())) {
+            cardRequest.setId(response.getData().getId());
             response = cardServiceInter.activateCard(cardRequest);
             return response;
         } else
             return response;
     }
 
-        public PlantillaResponse<CardResponse> blockCard(Integer cardId) {
+        public PlantillaResponse<CardResponse> blockCard(String cardId) {
 
-       var response = cardServiceInter.findByCardNumber( CardRequest.builder().id(cardId).build());
+       var response = cardServiceInter.findByCardNumber( CardRequest.builder().cardNumber(cardId).build());
             if (response.getMessage().equalsIgnoreCase(ResponseType.GET.getMessage())) {
-                response = cardServiceInter.blockCard(cardId);
+
+                response = cardServiceInter.blockCard(cardId , response.getData().getId());
                 return response;
             } else
                 return response;
         }
 
 
+    public PlantillaResponse<CardResponse> reloadBalance(CardRequest cardRequest) {
+        var response = cardServiceInter.findByCardNumber(cardRequest);
+        if (response.getMessage().equalsIgnoreCase(ResponseType.GET.getMessage())){
+            cardRequest.setId(response.getData().getId());
+        response = cardServiceInter.reloadBalance(cardRequest);
+        return response;
+        } else
+            return response;
+
+    }
+
+    public PlantillaResponse<CardResponse> checkBalance(Integer cardId) {
+       return  cardServiceInter.checkBalance(cardId);
+    }
 }

@@ -16,7 +16,7 @@ public class McsFinancialApplication {
 	public GroupedOpenApi publicApi() {
 		return GroupedOpenApi.builder()
 				.group("springshop-public")
-				.packagesToScan("juliaosistem.mcs_financial")
+				.packagesToScan("com.juliaosistem.mcs_financial")
 				.build();
 	}
 }

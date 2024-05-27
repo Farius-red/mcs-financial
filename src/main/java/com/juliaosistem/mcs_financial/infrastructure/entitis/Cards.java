@@ -1,9 +1,12 @@
 package com.juliaosistem.mcs_financial.infrastructure.entitis;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Builder
@@ -17,25 +20,24 @@ public class Cards {
     @Id
     private Integer id;
 
+    @Size(min = 16, max = 16, message = "Card number must be exactly 16 characters")
+    @Pattern(regexp = "\\d{16}", message = "Card number must contain only digits")
     @Column(unique = true, length = 16, nullable = false )
     private String cardNumber;
 
-    @Column(nullable = false)
+
     private String firstName;
 
-    @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
-    private LocalDate expirationDate;
+    private LocalDateTime expirationDate;
 
-    @Column(nullable = false)
     private Boolean active;
 
-    @Column(nullable = false)
+
     private Boolean blocked;
 
-    @Column(nullable = false)
+
     private Double balance;
 
     @PrePersist
@@ -56,8 +58,12 @@ public class Cards {
             this.balance = 0.0;
         }
 
+
         if (this.expirationDate == null) {
-            this.expirationDate = LocalDate.now().plusYears(3);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            this.expirationDate = LocalDateTime.now().plusYears(3);
+            String formattedDate = expirationDate.format(formatter);
+            this.expirationDate = LocalDateTime.parse(formattedDate, formatter);
         }
     }
 

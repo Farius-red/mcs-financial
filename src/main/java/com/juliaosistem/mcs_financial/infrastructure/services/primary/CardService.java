@@ -23,7 +23,15 @@ public class CardService {
         return cardImpl.activateCard(cardRequest);
     }
 
-    public PlantillaResponse<CardResponse> blockCard(Integer cardId) {
+    public PlantillaResponse<CardResponse> blockCard(String cardId) {
         return cardImpl.blockCard(cardId);
+    }
+
+    public PlantillaResponse<CardResponse> reloadBalance(CardRequest cardRequest) {
+        return  cardImpl.reloadBalance(cardRequest);
+    }
+
+    public PlantillaResponse<CardResponse> checkBalance(Integer cardId) {
+        return  cardImpl.checkBalance(cardId);
     }
 }

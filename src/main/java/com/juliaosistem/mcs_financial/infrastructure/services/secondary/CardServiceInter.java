@@ -8,7 +8,9 @@ public interface CardServiceInter {
 
     PlantillaResponse<CardResponse> generateCardNumber(CardRequest cardRequest);
     PlantillaResponse<CardResponse> activateCard(CardRequest cardRequest);
-    PlantillaResponse<CardResponse>  findByCardNumber (CardRequest cardRequest);
-    PlantillaResponse<CardResponse> blockCard(Integer cardId);
+    PlantillaResponse<CardResponse>   findByCardNumber (CardRequest cardRequest);
+    PlantillaResponse<CardResponse> blockCard(String cardId , Integer id);
+    PlantillaResponse<CardResponse> reloadBalance(CardRequest cardRequest);
 
+    PlantillaResponse<CardResponse> checkBalance(Integer cardId);
 }

@@ -2,20 +2,23 @@ package com.juliaosistem.mcs_financial.infrastructure.entitis;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name ="transacciones")
-@Getter
-@Setter
+@Data
 public class Transaction {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @UuidGenerator
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "card_id", nullable = false)
@@ -25,9 +28,19 @@ public class Transaction {
     private double amount;
 
     @Column(nullable = false)
-    private LocalDateTime timestamp;
+    private LocalDateTime dateOfPurchase;
 
     @Column(nullable = false)
-    private boolean annulled;
+    private Boolean annulled;
+
+    @PrePersist
+    public void prePersist() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        this.dateOfPurchase = LocalDateTime.now();
+        String formattedDate = dateOfPurchase.format(formatter);
+        this.dateOfPurchase = LocalDateTime.parse(formattedDate, formatter);
+        if ( this.annulled == null ) annulled= false;
+    }
 
 }

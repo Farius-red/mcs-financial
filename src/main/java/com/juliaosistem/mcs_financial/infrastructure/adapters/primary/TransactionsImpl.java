@@ -57,7 +57,7 @@ public class TransactionsImpl {
                 return transactionServiceInter.anulateTransaction(request, cardResponse.getData());
             }
             else {
-                if(cardResponse.getMessage().equalsIgnoreCase(ResponseType.CARD_NO_FOUND.getMessage())){
+                if(cardResponse.getMessage().equalsIgnoreCase(ResponseType.NO_ENCONTRADO.getMessage())){
                     return userResponses.buildResponse(ResponseType.CARD_NO_FOUND.getCode(), TransactionResponse.builder().build());
                 }
                 if(cardResponse.getMessage().equalsIgnoreCase(ResponseType.TRANSACTION_FAIL.getMessage())) {

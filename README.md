@@ -21,7 +21,7 @@ En el paquete de infraestructura  esta la logica del negocio separada por dos pa
 **paquete primary**
 Este se encarga de implementar toda la logica de negocio 
 
-**paquete secundary **
+**paquete secundary**
 Este se encarga de interactuar con la base de datos 
 
 
@@ -50,7 +50,7 @@ Este se encarga de interactuar con la base de datos
 
 **paso  9**  copar la ruta que aparece en lo resaltado en blanco
 
-paso 10  ejecutar  la ruta que copiamos sin la parte final del .jar
+**paso 10**  ejecutar  la ruta que copiamos sin la parte final del .jar
 cd  /home/daniel-juliao-sistem/Documentos/desarrollo/backend/mcs-financial/target/
 
 
@@ -96,3 +96,20 @@ curl --location 'http://localhost:8080/card/balance' \
 **Bloquear tarjeta**
 
 curl --location --request DELETE 'http://localhost:8080/card/1234568516344507'
+
+
+**Activar Tarjeta** 
+
+curl --location 'http://localhost:8080/card/enroll' \
+--header 'Content-Type: application/json' \
+--data '{
+"id": null,
+"cardNumber": "1234567890123456",
+"firstName": "John",
+"lastName": "Doe",
+"active": true
+}'
+
+**Genera numero tarjeta**
+
+curl --location 'http://localhost:8080/card/123458/number'

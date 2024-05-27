@@ -75,6 +75,20 @@ http://localhost:8080/documentacion
 **Debe aparecer la interfase visual  de swagger** 
 
 
+# Correr proyecto con intelliJ Idea 
+
+se requiere agregar en variables de ambiente
+
+DB_HOST= url de conexion;
+DB_PORT=su puerto;
+DB_DATABASE=su nombre de base de datos;
+DB_USERNAME=su usuario ;DB_PASSWORD=aqui la clave 
+
+**adjunto imagen  referencia**  
+
+![Texto alternativo](https://github.com/Farius-red/mcs-financial/blob/master/imgDocumentacion/intelliJ.png)
+
+
 # Curl enpoint 
   
 ### **Tarjetas** 
@@ -133,5 +147,6 @@ curl --location 'http://localhost:8080/transaction/d5d6b34f-d615-487d-a14a-63d50
 curl --location 'http://localhost:8080/transaction/anulation' \
 --header 'Content-Type: application/json' \
 --data '{
-"id": "d5d6b34f-d615-487d-a14a-63d502a62615"
+"id": "d5d6b34f-d615-487d-a14a-63d502a62615",
+"cardNumber": "1234568516344507"
 }'

@@ -113,3 +113,17 @@ curl --location 'http://localhost:8080/card/enroll' \
 **Genera numero tarjeta**
 
 curl --location 'http://localhost:8080/card/123458/number'
+
+
+### **Transacciones**
+
+**generar compra** 
+
+curl -X POST "http://localhost:8080/transaction/purchase" -H "Content-Type: application/json" -d '{
+"cardId": 123,
+"amount": 50.0
+}'
+
+**Consultar transacción**
+
+curl --location 'http://localhost:8080/transaction/d5d6b34f-d615-487d-a14a-63d502a62615'

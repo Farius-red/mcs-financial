@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 public  class AbtractError extends  Exception  {
-    protected transient Logger logger = LogManager.getLogger(getClass());
+    protected transient  Logger logger = LogManager.getLogger(getClass());
 
     public void logError(Throwable throwable ) {
         logger.error("Error occurred in %%s:%s--%s".formatted(getClass().getName(), getLocalizedMessage()), getClass().getName() + getLocalizedMessage() , throwable);

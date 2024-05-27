@@ -45,15 +45,86 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
     @Test
     void testGenerateCardNumber_InvalidId() {
-        Integer invalidId = 12345;
+        Integer invalidId = 123456;
 
         CardResponse cardResponse = CardResponse.builder().build();
 
         PlantillaResponse<CardResponse> expectedResponse = userResponses.buildResponse(ResponseType.NO_VALID_ID_CARD.getCode(), cardResponse);
-        when(userResponses.buildResponse(anyInt(), any())).thenReturn(expectedResponse);
 
         PlantillaResponse<CardResponse> response = cardImpl.generateCardNumber(invalidId);
 
         assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    void testActivateCard_ValidCardRequest() {
+        CardRequest cardRequest = new CardRequest();
+        cardRequest.setId(102030);
+        cardRequest.setCardNumber("1020301234567801");
+
+        PlantillaResponse<CardResponse> expectedResponse = new PlantillaResponse<>();
+        expectedResponse.setMessage(ResponseType.GET.getMessage());
+        expectedResponse.setData(CardResponse.builder()
+                        .id(cardRequest.getId())
+                        .cardNumber(cardRequest.getCardNumber())
+                .build());
+
+        when(cardServiceInter.findByCardNumber(cardRequest)).thenReturn(expectedResponse);
+         when(cardServiceInter.activateCard(cardRequest)).thenReturn(expectedResponse);
+        PlantillaResponse<CardResponse> response = cardImpl.activateCard(cardRequest);
+
+        assertNotNull(response);
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    void testBlockCard_ValidCardId() {
+        String cardId = "1020301234567801";
+        PlantillaResponse<CardResponse> expectedResponse =  new PlantillaResponse<>();
+        expectedResponse.setMessage(ResponseType.LOCKED_CARD.getMessage());
+        expectedResponse.setData(CardResponse.builder()
+                        .id(102030)
+                        .cardNumber(cardId)
+                .build());
+
+        when(cardServiceInter.findByCardNumber(any())).thenReturn(expectedResponse);
+
+        PlantillaResponse<CardResponse> response = cardImpl.blockCard(cardId);
+
+        assertNotNull(response);
+        assertEquals(expectedResponse, response);
+
+    }
+
+    @Test
+    void testReloadBalance_ValidCardRequest() {
+        CardRequest cardRequest = new CardRequest();
+        cardRequest.setId(102030);
+        cardRequest.setCardNumber("1020301234567801");
+        PlantillaResponse<CardResponse> expectedResponse = new PlantillaResponse<>();
+        expectedResponse.setMessage(ResponseType.RELOAD_BALANCE.getMessage());
+        expectedResponse.setData(CardResponse.builder()
+                        .id(cardRequest.getId())
+                        .cardNumber(cardRequest.getCardNumber())
+                .build());
+        when(cardServiceInter.findByCardNumber(cardRequest)).thenReturn(expectedResponse);
+
+        PlantillaResponse<CardResponse> response = cardImpl.reloadBalance(cardRequest);
+
+        assertNotNull(response);
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    void testCheckBalance_ValidCardId() {
+        Integer cardId = 123;
+        PlantillaResponse<CardResponse> expectedResponse = new PlantillaResponse<>();
+        when(cardServiceInter.checkBalance(cardId)).thenReturn(expectedResponse);
+
+        PlantillaResponse<CardResponse> response = cardImpl.checkBalance(cardId);
+
+        assertNotNull(response);
+        assertEquals(expectedResponse, response);
+        verify(cardServiceInter, times(1)).checkBalance(cardId);
     }
 }

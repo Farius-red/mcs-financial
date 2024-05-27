@@ -5,7 +5,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.juliaosistem.mcs_financial.api.dtos.request.PurchaseRequest;
 import com.juliaosistem.mcs_financial.api.dtos.responses.CardResponse;
 import com.juliaosistem.mcs_financial.api.dtos.responses.TransactionResponse;
-import com.juliaosistem.mcs_financial.api.mappers.CardMapper;
 import com.juliaosistem.mcs_financial.api.mappers.TransactionMapper;
 import com.juliaosistem.mcs_financial.infrastructure.repository.CardRepository;
 import com.juliaosistem.mcs_financial.infrastructure.repository.TransactionRepository;
@@ -31,7 +30,6 @@ public class TransactionAdapter  implements TransactionServiceInter {
 
     private  final TransactionRepository transactionRepository;
     private final TransactionMapper mapper;
-    private final CardMapper cardMapper;
     private final CardRepository cardRepository;
 
     @Override

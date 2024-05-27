@@ -127,3 +127,11 @@ curl -X POST "http://localhost:8080/transaction/purchase" -H "Content-Type: appl
 **Consultar transacción**
 
 curl --location 'http://localhost:8080/transaction/d5d6b34f-d615-487d-a14a-63d502a62615'
+
+**Anular Transaccion**
+
+curl --location 'http://localhost:8080/transaction/anulation' \
+--header 'Content-Type: application/json' \
+--data '{
+"id": "d5d6b34f-d615-487d-a14a-63d502a62615"
+}'
